@@ -1,0 +1,63 @@
+create table item(  
+seq number primary key, --상품코드
+name varchar2(60) not null unique,  --상품이름
+price number not null,  --상품가격
+category number not null,   --상품분류 / 과일:0 육류:1 채소:2 주류:3
+product_qty number default 0 not null,--상품재고
+image varchar2(100) default 'default.jpg'--상품이미지
+); 
+
+create sequence item_seq nocycle nocache; --시퀀스 생성
+
+insert into ITEM values(item_seq.nextval,'복숭아',5000,0,99,'peach.jpg');
+insert into ITEM values(item_seq.nextval,'사과',2000,0,75,'apple.jpg');
+insert into item values(item_seq.nextval,'딸기',3000,0,50,'strawberry.jpg');
+
+insert into item values(item_seq.nextval,'돼지고기',12000,1,12,'pork.jpg');
+insert into item values(item_seq.nextval,'소고기',18000,1,10,'beef.jpg');
+insert into item values(item_seq.nextval,'닭고기',10000,1,21,'chicken.jpg');
+
+insert into item values(item_seq.nextval,'상추',12000,2,100,'lettuce.jpg');
+insert into item values(item_seq.nextval,'배추',18000,2,120,'cabbage.jpg');
+insert into item values(item_seq.nextval,'피망',10000,2,200,'paprika.jpg');
+
+insert into item values(item_seq.nextval,'참이슬',1500,3,200,'soju.jpg');
+insert into item values(item_seq.nextval,'호가든',2500,3,80,'hoegaarden.jpg');
+insert into item values(item_seq.nextval,'막걸리',3000,3,110,'makgullee.jpg');
+
+insert into ITEM values(item_seq.nextval,'천도복숭아',2000,0,19,'peach2.jpg');
+insert into ITEM values(item_seq.nextval,'바나나',1000,0,50,'banana.jpg');
+insert into ITEM values(item_seq.nextval,'파인애플',3200,0,20,'pineapple.jpg');
+insert into ITEM values(item_seq.nextval,'수박',10000,0,50,'watermelon.jpg');
+insert into ITEM values(item_seq.nextval,'키위',3100,0,10,'kiwi.jpg');
+
+insert into item values(item_seq.nextval,'양고기',15000,1,20,'sheep.jpg');
+insert into item values(item_seq.nextval,'족발',10000,1,20,'pigfoot.jpg');
+insert into item values(item_seq.nextval,'앵거스',12000,1,10,'angus.jpg');
+insert into item values(item_seq.nextval,'칠면조',8000,1,10,'turkey.jpg');
+insert into item values(item_seq.nextval,'돈까스',4000,1,30,'porkcutlet.jpg');
+
+insert into item values(item_seq.nextval,'당근',1000,2,500,'carrot.jpg');
+insert into item values(item_seq.nextval,'브로콜리',500,2,120,'brocol.jpg');
+insert into item values(item_seq.nextval,'아보카도',12000,2,30,'avocado.jpg');
+insert into item values(item_seq.nextval,'토마토',2000,2,90,'tomato.jpg');
+insert into item values(item_seq.nextval,'오이',1000,2,100,'cucumber.jpg');
+
+insert into item values(item_seq.nextval,'클라우드',2500,3,200,'cloud.jpg');
+insert into item values(item_seq.nextval,'블랑',3500,3,80,'blanc.jpg');
+insert into item values(item_seq.nextval,'잭다니엘',38000,3,110,'jack.jpg');
+insert into item values(item_seq.nextval,'엑소',55000,3,80,'xo.jpg');
+insert into item values(item_seq.nextval,'순하리',3000,3,110,'soon.jpg');
+
+
+
+commit; --커밋
+
+select * from item; --데이터 보기
+
+
+
+drop table item;	--테이블 삭제
+purge recyclebin;	--휴지통 비우기
+
+drop sequence account_seq; --시퀀스 삭제

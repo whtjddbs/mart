@@ -1,0 +1,250 @@
+--회원 DB
+
+create table account(
+no number primary key, --회원번호
+id varchar2(50) not null unique, --아이디
+password varchar2(50) not null, --비밀번호
+name varchar2(15) not null, --이름
+gender number not null, -- 남자:0 여자:1 
+email varchar2(200) not null, --이메일
+post varchar2(5) not null, --우편번호 앞
+address1 varchar2(600) not null, --주소 앞
+address2 varchar2(600) not null, --주소 뒤
+tel1 varchar2(5) not null,
+tel2 varchar2(5) not null,
+tel3 varchar2(5) not null,
+point number default 0, --포인트
+code number not null, --0:관리자 1:고객
+joindate date);
+
+create sequence account_seq nocycle nocache;
+
+insert into ACCOUNT values(account_seq.nextval, 'admin', 'admin123', '관리자', 0, 
+'admin@gmail.com', '00000', '대한민국', '서울',
+'010', '0000', '0000', 0, 0, sysdate);
+
+--구매목록 DB
+
+create table buylist(
+num number primary key, --구매목록 시퀀스
+no number not null, -- 회원번호
+seq number not null, -- 상품번호
+name varchar2(60), -- 상품이름 
+price number not null, -- 가격   
+count number default 1, -- 구매수량 
+buytime date not null, -- 구매일
+delivery_stmt number default 0 --배송상태      0:준비중 1:배송중 2:배송완료 3:취소
+);
+
+create sequence buylist_seq nocycle nocache;
+
+--상품 분류 DB
+
+create table category(
+code number primary key, --상품분류 코드
+name varchar2(30) not null --상품분류명
+);
+
+create sequence category_seq nocycle nocache;
+
+-- 1 : 육류
+-- 2 : 채소
+-- 3 : 주류
+-- 4 : 가전제품
+-- 5 : 냉동식품
+-- 6 : 생활용품
+-- 7 : 가공식품
+-- 8 : 주방용품
+-- 9 : 스포츠용품
+-- 10 : 문구류
+-- 11 : 의류/잡화
+-- 12 : 과일
+insert into category values(category_seq.nextval, '육류');
+insert into category values(category_seq.nextval, '채소');
+insert into category values(category_seq.nextval, '주류');
+insert into category values(category_seq.nextval, '가전제품');
+insert into category values(category_seq.nextval, '냉동식품');
+insert into category values(category_seq.nextval, '생활용품');
+insert into category values(category_seq.nextval, '가공식품');
+insert into category values(category_seq.nextval, '주방용품');
+insert into category values(category_seq.nextval, '스포츠용품');
+insert into category values(category_seq.nextval, '문구류');
+insert into category values(category_seq.nextval, '의류/잡화');
+insert into category values(category_seq.nextval, '과일');
+
+commit;
+
+-- 상품 DB
+create table item(  
+seq number primary key, --상품코드
+name varchar2(60) not null unique,  --상품이름
+price number not null,  --상품가격
+category number not null,   --상품분류 / 과일:0 육류:1 채소:2 주류:3
+product_qty number default 0 not null,--상품재고
+image varchar2(100) default 'default.jpg'--상품이미지
+); 
+
+create sequence item_seq nocycle nocache; --시퀀스 생성
+
+-- 1 : 육류
+insert into item values(item_seq.nextval,'돼지고기',12000,1,12,'pork.jpg');
+insert into item values(item_seq.nextval,'소고기',18000,1,10,'beef.jpg');
+insert into item values(item_seq.nextval,'닭고기',10000,1,21,'chicken.jpg');
+insert into item values(item_seq.nextval,'양고기',15000,1,20,'sheep.jpg');
+insert into item values(item_seq.nextval,'족발',10000,1,20,'pigfoot.jpg');
+insert into item values(item_seq.nextval,'앵거스',12000,1,10,'angus.jpg');
+insert into item values(item_seq.nextval,'칠면조',8000,1,10,'turkey.jpg');
+insert into item values(item_seq.nextval,'돈까스',4000,1,30,'porkcutlet.jpg');
+
+-- 2 : 채소
+insert into item values(item_seq.nextval,'상추',12000,2,100,'lettuce.jpg');
+insert into item values(item_seq.nextval,'배추',18000,2,120,'cabbage.jpg');
+insert into item values(item_seq.nextval,'피망',10000,2,200,'paprika.jpg');
+insert into item values(item_seq.nextval,'당근',1000,2,500,'carrot.jpg');
+insert into item values(item_seq.nextval,'브로콜리',500,2,120,'brocol.jpg');
+insert into item values(item_seq.nextval,'아보카도',12000,2,30,'avocado.jpg');
+insert into item values(item_seq.nextval,'토마토',2000,2,90,'tomato.jpg');
+insert into item values(item_seq.nextval,'오이',1000,2,100,'cucumber.jpg');
+
+-- 3 : 주류
+insert into item values(item_seq.nextval,'참이슬',1500,3,200,'soju.jpg');
+insert into item values(item_seq.nextval,'호가든',2500,3,80,'hoegaarden.jpg');
+insert into item values(item_seq.nextval,'막걸리',3000,3,110,'makgullee.jpg');
+insert into item values(item_seq.nextval,'클라우드',2500,3,200,'cloud.jpg');
+insert into item values(item_seq.nextval,'블랑',3500,3,80,'blanc.jpg');
+insert into item values(item_seq.nextval,'잭다니엘',38000,3,110,'jack.jpg');
+insert into item values(item_seq.nextval,'엑소',55000,3,80,'xo.jpg');
+insert into item values(item_seq.nextval,'순하리',3000,3,110,'soon.jpg');
+
+-- 4 : 가전제품
+insert into item values(item_seq.nextval,'드라이기',25000,4,60,'hairdry.jpg');
+insert into item values(item_seq.nextval,'밥솥',205000,4,90,'babsot.jpg');
+insert into item values(item_seq.nextval,'커피포트',15000,4,90,'coffeeport.jpg');
+insert into item values(item_seq.nextval,'세탁기',239000,4,90,'setak.jpg');
+insert into item values(item_seq.nextval,'김치냉장고',1039000,4,90,'kimchi.jpg');
+insert into item values(item_seq.nextval,'냉장고',1039000,4,90,'nangjang.jpg');
+insert into item values(item_seq.nextval,'가스레인지',69000,4,90,'GAS.jpg');
+insert into item values(item_seq.nextval,'다리미',49000,4,90,'darimi.jpg');
+insert into item values(item_seq.nextval,'드럼세탁기',49000,4,90,'drumse.jpg');
+insert into item values(item_seq.nextval,'돌체구스토',49000,4,90,'dolche.jpg');
+insert into item values(item_seq.nextval,'선풍기',49000,4,90,'fan.jpg');
+
+-- 5 : 냉동식품
+insert into item values(item_seq.nextval,'냉동아구찜',49000,5,90,'ice1.jpg');
+insert into item values(item_seq.nextval,'냉동닭근위볶음',49000,5,90,'ice2.jpg');
+insert into item values(item_seq.nextval,'티라미슈',49000,5,90,'ice3.jpg');
+insert into item values(item_seq.nextval,'모짜렐라피자',4900,5,90,'ice4.jpg');
+insert into item values(item_seq.nextval,'콰트로피자',4900,5,90,'ice5.jpg');
+insert into item values(item_seq.nextval,'하겐다즈',4900,5,90,'ice6.jpg');
+insert into item values(item_seq.nextval,'소막창',8900,5,90,'ice7.jpg');
+insert into item values(item_seq.nextval,'고로케',5900,5,90,'ice8.jpg');
+insert into item values(item_seq.nextval,'소대창',8900,5,90,'ice9.jpg');
+insert into item values(item_seq.nextval,'컵피자',7900,5,90,'ice10.jpg');
+
+-- 6 : 생활용품
+insert into item values(item_seq.nextval, '휴지', 19900, 6, 80,'ga1.jpg');
+insert into item values(item_seq.nextval, '치약', 9900, 6, 80,'ga2.jpg');
+insert into item values(item_seq.nextval, '물티슈', 3900, 6, 80,'ga3.jpg');
+insert into item values(item_seq.nextval, '생리대', 6900, 6, 80,'ga4.jpg');
+insert into item values(item_seq.nextval, '바디워시', 7900, 6, 80,'ga5.jpg');
+insert into item values(item_seq.nextval, '비누', 3900, 6, 80,'ga6.jpg');
+insert into item values(item_seq.nextval, '샴푸', 5900, 6, 80,'ga7.jpg');
+insert into item values(item_seq.nextval, '세제', 8900, 6, 80,'ga8.jpg');
+insert into item values(item_seq.nextval, '염색약', 5900, 6, 80,'ga9.jpg');
+insert into item values(item_seq.nextval, '크리넥스', 18900, 6, 80,'ga10.jpg');
+insert into item values(item_seq.nextval, '칫솔', 6900, 6, 80,'ga11.jpg');
+insert into item values(item_seq.nextval,'건전지',5800,6,80,'go1.jpg');
+insert into item values(item_seq.nextval,'핸드카트',6000,6,80,'go2.jpg');
+insert into item values(item_seq.nextval,'형광등',2900,6,80,'go3.jpg');
+insert into item values(item_seq.nextval,'샤워호스',7900,6,80,'go4.jpg');
+insert into item values(item_seq.nextval,'샤워헤더',6900,6,80,'go5.jpg');
+insert into item values(item_seq.nextval,'전구',1900,6,80,'go6.jpg');
+insert into item values(item_seq.nextval,'삼파장',3900,6,80,'go7.jpg');
+insert into item values(item_seq.nextval,'T멀티탭',4900,6,80,'go8.jpg');
+insert into item values(item_seq.nextval,'2구멀티탭',3300,6,80,'go9.jpg');
+insert into item values(item_seq.nextval,'4구멀티탭',5000,6,80,'go10.jpg');
+insert into item values(item_seq.nextval,'딱풀',900,6,80,'go11.jpg');
+insert into item values(item_seq.nextval,'코인건전지',2900,6,80,'go12.jpg');
+insert into item values(item_seq.nextval,'방중망밴드',1900,6,80,'go13.jpg');
+
+-- 7 : 가공식품
+insert into item values(item_seq.nextval, '짜빠게티', 3100, 7, 80,'ra1.jpg');
+insert into item values(item_seq.nextval, '신라면', 3050, 7, 80,'ra2.jpg');
+insert into item values(item_seq.nextval, '매운맛 진라면', 2700, 7, 80,'ra3.jpg');
+insert into item values(item_seq.nextval, '순한맛 진라면', 2700, 7, 80,'ra4.jpg');
+insert into item values(item_seq.nextval, '열무비빔면', 2000, 7, 80,'ra5.jpg');
+insert into item values(item_seq.nextval, '까르보 불닭', 4000, 7, 80,'ra6.jpg');
+insert into item values(item_seq.nextval, '김치도시락', 500, 7, 80,'ra7.jpg');
+insert into item values(item_seq.nextval, '컵참깨라면', 1200, 7, 80,'ra8.jpg');
+insert into item values(item_seq.nextval, '둥지냉면', 3000, 7, 80,'ra9.jpg');
+insert into item values(item_seq.nextval, '왕뚜껑', 900, 7, 80,'ra10.jpg');
+insert into item values(item_seq.nextval, '컵불닭볶음면', 1200, 7, 80,'ra11.jpg');
+insert into item values(item_seq.nextval, '안성탕면', 3000, 7, 80,'ra12.jpg');
+insert into item values(item_seq.nextval, '육개장', 3900, 7, 80,'ra13.jpg');
+
+-- 8 : 주방용품
+insert into item values(item_seq.nextval,'청소포',1900,8,70,'ju1.jpg');
+insert into item values(item_seq.nextval,'4구 후라이팬',10900,8,70,'ju2.jpg');
+insert into item values(item_seq.nextval,'3구 후라이팬',10000,8,70,'ju3.jpg');
+insert into item values(item_seq.nextval,'장바구니',1000,8,70,'ju4.jpg');
+insert into item values(item_seq.nextval,'분무기',700,8,70,'ju5.jpg');
+insert into item values(item_seq.nextval,'감자칼',900,8,70,'ju6.jpg');
+insert into item values(item_seq.nextval,'물병',1000,8,70,'ju7.jpg');
+insert into item values(item_seq.nextval,'밀폐용기',900,8,70,'ju8.jpg');
+insert into item values(item_seq.nextval,'접시',4900,8,70,'ju9.jpg');
+insert into item values(item_seq.nextval,'가위',2900,8,70,'ju10.jpg');
+insert into item values(item_seq.nextval,'집게',1900,8,70,'ju11.jpg');
+insert into item values(item_seq.nextval,'칼',3900,8,70,'ju13.jpg');
+
+-- 9 : 스포츠용품
+insert into item values(item_seq.nextval,'축구공',21900,9,80,'spo1.jpg');
+insert into item values(item_seq.nextval,'야구공',5900,9,80,'spo2.jpg');
+insert into item values(item_seq.nextval,'마사지볼',8900,9,80,'spo3.jpg');
+insert into item values(item_seq.nextval,'미니골대',10900,9,80,'spo4.jpg');
+insert into item values(item_seq.nextval,'짐볼',12900,9,80,'spo5.jpg');
+insert into item values(item_seq.nextval,'로프',5900,9,80,'spo6.jpg');
+insert into item values(item_seq.nextval,'배드민턴',10200,9,80,'spo7.jpg');
+insert into item values(item_seq.nextval,'요가매트',8900,9,80,'spo8.jpg');
+insert into item values(item_seq.nextval,'셔틀콕',3900,9,80,'spo9.jpg');
+insert into item values(item_seq.nextval,'테니스볼',2900,9,80,'spo10.jpg');
+insert into item values(item_seq.nextval,'악력기',12900,9,80,'spo11.jpg');
+insert into item values(item_seq.nextval,'줄넘기',3900,9,80,'spo12.jpg');
+insert into item values(item_seq.nextval,'헤어밴드',4900,9,80,'spo13.jpg');
+insert into item values(item_seq.nextval,'탁구라켓',10300,9,80,'spo13.jpg');
+
+-- 10 : 문구류
+insert into item values(item_seq.nextval,'수정테이프',900,10,80,'mun1.jpg');
+insert into item values(item_seq.nextval,'테이프',1300,10,80,'mun2.jpg');
+insert into item values(item_seq.nextval,'A4',2000,10,80,'mun3.jpg');
+insert into item values(item_seq.nextval,'화일',1300,10,80,'mun4.jpg');
+insert into item values(item_seq.nextval,'미니테이프',900,10,80,'mun5.jpg');
+insert into item values(item_seq.nextval,'볼펜',2000,10,80,'mun6.jpg');
+insert into item values(item_seq.nextval,'포스트잇',1600,10,80,'mun7.jpg');
+insert into item values(item_seq.nextval,'보드마카',1500,10,80,'mun8.jpg');
+insert into item values(item_seq.nextval,'지우개',2000,10,80,'mun9.jpg');
+insert into item values(item_seq.nextval,'형광펜',1300,10,80,'mun10.jpg');
+insert into item values(item_seq.nextval,'컴퓨터용 싸인펜',1500,10,80,'mun11.jpg');
+
+-- 11 : 의류/잡화
+insert into item values(item_seq.nextval,'남자팬티',2900,11,80,'clo1.jpg');
+insert into item values(item_seq.nextval,'여성런닝',1900,11,80,'clo2.jpg');
+insert into item values(item_seq.nextval,'5부바지',4900,11,80,'clo3.jpg');
+insert into item values(item_seq.nextval,'여성팬티',3000,11,80,'clo4.jpg');
+insert into item values(item_seq.nextval,'여성브라',5000,11,80,'clo5.jpg');
+insert into item values(item_seq.nextval,'남성양말',1800,11,80,'clo6.jpg');
+insert into item values(item_seq.nextval,'덧신',900,11,80,'clo7.jpg');
+insert into item values(item_seq.nextval,'우산',2900,11,80,'clo8.jpg');
+insert into item values(item_seq.nextval,'신발',12900,11,80,'clo9.jpg');
+insert into item values(item_seq.nextval,'백팩',44900,11,80,'clo10.jpg');
+
+-- 12 : 과일
+insert into ITEM values(item_seq.nextval,'복숭아',5000,12,99,'peach.jpg');
+insert into ITEM values(item_seq.nextval,'사과',2000,12,75,'apple.jpg');
+insert into item values(item_seq.nextval,'딸기',3000,12,50,'strawberry.jpg');
+insert into ITEM values(item_seq.nextval,'천도복숭아',2000,12,19,'peach2.jpg');
+insert into ITEM values(item_seq.nextval,'바나나',1000,12,50,'banana.jpg');
+insert into ITEM values(item_seq.nextval,'파인애플',3200,12,20,'pineapple.jpg');
+insert into ITEM values(item_seq.nextval,'수박',10000,12,50,'watermelon.jpg');
+insert into ITEM values(item_seq.nextval,'키위',3100,12,10,'kiwi.jpg');
+
+commit;

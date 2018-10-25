@@ -1,0 +1,13 @@
+create table category(
+code number primary key, --상품분류 코드
+name varchar2(30) not null --상품분류명
+);
+
+create sequence category_seq nocycle nocache;
+
+insert into category values(0, '과일');
+insert into category values(category_seq.nextval, '육류');
+insert into category values(category_seq.nextval, '채소');
+insert into category values(category_seq.nextval, '주류');
+
+commit;

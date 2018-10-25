@@ -1,0 +1,20 @@
+create table buylist(
+num number primary key, --구매목록 시퀀스
+no number not null, -- 회원번호
+seq number not null, -- 상품번호
+name varchar2(60), -- 상품이름 
+price number not null, -- 가격   
+count number default 1, -- 구매수량 
+buytime date not null, -- 구매일
+delivery_stmt number default 0 --배송상태      0:준비중 1:배송중 2:배송완료 3:취소
+);
+
+create sequence buylist_seq nocycle nocache;
+
+insert into buylist values(buylist_seq.nextval, 2, 5, '소고기', 18000, 1, TO_DATE('20180513', 'YYYYMMDD'), 0);
+insert into buylist values(buylist_seq.nextval, 1, 1, '복숭아', 5000, 1, sysdate, 0);
+insert into buylist values(buylist_seq.nextval, 2, 1, '복숭아', 10000, 2, sysdate, 0);
+insert into buylist values(buylist_seq.nextval, 2, 5, '소고기', 18000, 1, TO_DATE('20180624', 'YYYYMMDD'), 0);
+insert into buylist values(buylist_seq.nextval, 2, 1, '복숭아', 10000, 2, TO_DATE('20180701', 'YYYYMMDD'), 0);
+insert into buylist values(buylist_seq.nextval, 2, 7, '상추', 12000, 1, TO_DATE('20180520', 'YYYYMMDD'), 0);
+insert into buylist values(buylist_seq.nextval, 2, 7, '상추', 12000, 1, sysdate, 0);

@@ -1,0 +1,22 @@
+create table account(
+no number primary key, --회원번호
+id varchar2(50) not null unique, --아이디
+password varchar2(50) not null, --비밀번호
+name varchar2(15) not null, --이름
+gender number not null, -- 남자:0 여자:1 
+email varchar2(200) not null, --이메일
+post varchar2(5) not null, --우편번호 앞
+address1 varchar2(600) not null, --주소 앞
+address2 varchar2(600) not null, --주소 뒤
+tel1 varchar2(5) not null,
+tel2 varchar2(5) not null,
+tel3 varchar2(5) not null,
+point number default 0, --포인트
+code number not null, --0:관리자 1:고객
+joindate date);
+
+create sequence account_seq nocycle nocache;
+
+insert into ACCOUNT values(account_seq.nextval, 'admin', 'admin123', '관리자', 0, 
+'admin@gmail.com', '00000', '대한민국', '서울',
+'010', '0000', '0000', 0, 0, sysdate);
